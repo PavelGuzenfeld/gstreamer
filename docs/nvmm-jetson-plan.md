@@ -154,24 +154,25 @@ The ABI boundary to GStreamer is C (`plugin_init`, element factory, GObject type
 - [x] C++17 GstNvmmConvert implemented (NvBufSurfTransform wrapper)
 - [x] NvmmBuffer RAII wrapper, NvmmTransform, ByteSpan, Result<T> types
 - [x] Mock NvBufSurface API for host-side x86_64 testing
-- [x] 20 unit tests passing in Docker (buffer: 9, transform: 6, allocator: 5)
 - [x] Dockerfiles: dev (mock), JP5 (Xavier), JP6 (Orin)
 - [x] 3 gap issues filed on freedesktop.org (#4979, #4980, #4981)
-
-### In Progress
-
-- [ ] **Port GstNvmmAllocator to C** — upstream MR in `subprojects/gst-plugins-bad/sys/nvmm/`
-
-### Remaining (desktop, no Jetson needed)
-
-- [ ] Implement `nvmmsink` — shared-memory sink with DMA-buf export (standalone repo)
-- [ ] Implement `nvmmappsrc` — push NVMM buffers from app into pipeline (standalone repo)
-- [ ] Add GstCheck-based tests — state transitions, GstHarness pipeline tests
-- [ ] Add benchmark framework — scaffolding for latency/throughput measurement
-- [ ] Port GstNvmmConvert to C — upstream MR element
+- [x] **Port GstNvmmAllocator + nvmmconvert to C** — `subprojects/gst-plugins-bad/sys/nvmm/`
+- [x] **nvmmsink** — shared-memory sink with DMA-buf export, ShmHeader protocol
+- [x] **nvmmappsrc** — shared-memory source, reads ShmHeader frames, auto-caps
+- [x] **GstCheck element tests** — discovery, state transitions, properties, pad templates, pipeline wiring
+- [x] **Benchmark framework** — alloc/free, map/unmap, transform with CSV output
+- [x] **35 tests passing** across 6 suites + 1 benchmark (6 measurements)
+- [x] **Sink→Source integration test** — end-to-end IPC via POSIX shared memory
 
 ### Blocked on Jetson hardware
 
 - [ ] On-device JP5/JP6 testing against real `libnvbufsurface.so`
 - [ ] Benchmark: zero-copy vs CPU-copy latency numbers
 - [ ] Test with real ROCX pipelines
+
+### Future
+
+- [ ] Port GstNvmmConvert to C for upstream MR
+- [ ] NvSciBuf / NvSciSync integration (JP6 only)
+- [ ] GstBufferPool implementation for NVMM buffer recycling
+- [ ] Post to NVIDIA dev forum and GStreamer Discourse
