@@ -123,3 +123,20 @@ The ABI boundary to GStreamer is C (`plugin_init`, element factory, GObject type
 | Jetson Linux archive | `developer.nvidia.com/embedded/jetson-linux-archive` |
 | DeepStream custom plugin docs | `docs.nvidia.com/metropolis/deepstream/.../DS_sample_custom_gstream.html` |
 | NvBufSurface zero-copy forum thread | `forums.developer.nvidia.com/t/...339246` |
+
+---
+
+## 7. Filed Issues (freedesktop.org GitLab)
+
+| # | Issue | URL |
+|---|-------|-----|
+| 1 | nvcodec: No Tegra/NVMM allocator path | https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4979 |
+| 2 | Missing GstAllocator wrapper for NvBufSurface | https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4980 |
+| 3 | NvBufSurfTransform has no GStreamer element | https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4981 |
+
+## 8. Repos
+
+| Repo | URL |
+|------|-----|
+| Standalone plugin (Track B) | https://github.com/PavelGuzenfeld/gst-nvmm-cpp |
+| GStreamer fork (Track A) | https://github.com/PavelGuzenfeld/gstreamer (branch: `nvmm-jetson-plan`) |
