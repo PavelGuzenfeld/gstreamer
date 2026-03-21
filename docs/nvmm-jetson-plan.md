@@ -17,7 +17,7 @@ The problem is structural and well-documented across the NVIDIA developer forums
 
 ### Why we are positioned to solve this
 
-We have already built the hard parts in ROCX: `GstBaseSink` with NVMM, `NvBufSurfTransform` for crop/scale, custom `GstMeta` propagation across plugin boundaries, and shared-memory output — all tested on Xavier and Orin.
+We have already built the hard parts in internal projects: `GstBaseSink` with NVMM, `NvBufSurfTransform` for crop/scale, custom `GstMeta` propagation across plugin boundaries, and shared-memory output — all tested on Xavier and Orin.
 
 ---
 
@@ -168,7 +168,7 @@ The ABI boundary to GStreamer is C (`plugin_init`, element factory, GObject type
 
 - [ ] On-device JP5/JP6 testing against real `libnvbufsurface.so`
 - [ ] Benchmark: zero-copy vs CPU-copy latency numbers
-- [ ] Test with real ROCX pipelines
+- [ ] Test with real production pipelines
 
 ### Future
 
