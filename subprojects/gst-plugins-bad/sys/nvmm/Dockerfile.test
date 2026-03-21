@@ -1,0 +1,46 @@
+# Test build for the upstream-style C nvmm plugin.
+# Compiles against system GStreamer with mock NvBufSurface.
+#
+# Build from the nvmm directory:
+#   docker build -f Dockerfile.test -t nvmm-c-test .
+
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    pkg-config \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-tools \
+    libglib2.0-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+COPY *.c *.h /src/
+
+# Compile the plugin as a shared library
+RUN gcc -shared -fPIC -o libgstnvmm.so \
+    -UHAVE_CONFIG_H \
+    -DNVMM_MOCK_API \
+    -DPACKAGE=\"gst-plugins-bad\" \
+    -DPACKAGE_VERSION=\"1.20.0\" \
+    -DGST_PACKAGE_NAME=\"gst-plugins-bad\" \
+    -DGST_PACKAGE_ORIGIN=\"https://github.com/PavelGuzenfeld/gst-nvmm-cpp\" \
+    $(pkg-config --cflags gstreamer-1.0 gstreamer-base-1.0 gstreamer-video-1.0 gstreamer-allocators-1.0) \
+    gstnvmmallocator.c gstnvmmconvert.c plugin.c \
+    $(pkg-config --libs gstreamer-1.0 gstreamer-base-1.0 gstreamer-video-1.0 gstreamer-allocators-1.0) \
+    -Wall -Wextra -std=c11 \
+    && echo "BUILD OK"
+
+# Verify plugin loads
+RUN GST_PLUGIN_PATH=/src gst-inspect-1.0 nvmm && echo "PLUGIN LOADS OK"
+
+# Verify elements are registered
+RUN GST_PLUGIN_PATH=/src gst-inspect-1.0 nvmmconvert && echo "NVMMCONVERT OK"
+
+CMD ["echo", "All checks passed"]

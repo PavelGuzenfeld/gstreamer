@@ -140,3 +140,38 @@ The ABI boundary to GStreamer is C (`plugin_init`, element factory, GObject type
 |------|-----|
 | Standalone plugin (Track B) | https://github.com/PavelGuzenfeld/gst-nvmm-cpp |
 | GStreamer fork (Track A) | https://github.com/PavelGuzenfeld/gstreamer (branch: `nvmm-jetson-plan`) |
+
+---
+
+## 9. Progress Tracker (updated 2026-03-21)
+
+### Completed
+
+- [x] freedesktop.org account created, user verified (PavelGuzenfeld, id: 1255066)
+- [x] GStreamer monorepo forked on GitHub (`PavelGuzenfeld/gstreamer`)
+- [x] Standalone `gst-nvmm-cpp` repo created with full project structure
+- [x] C++17 GstNvmmAllocator implemented (mock + real API paths)
+- [x] C++17 GstNvmmConvert implemented (NvBufSurfTransform wrapper)
+- [x] NvmmBuffer RAII wrapper, NvmmTransform, ByteSpan, Result<T> types
+- [x] Mock NvBufSurface API for host-side x86_64 testing
+- [x] 20 unit tests passing in Docker (buffer: 9, transform: 6, allocator: 5)
+- [x] Dockerfiles: dev (mock), JP5 (Xavier), JP6 (Orin)
+- [x] 3 gap issues filed on freedesktop.org (#4979, #4980, #4981)
+
+### In Progress
+
+- [ ] **Port GstNvmmAllocator to C** — upstream MR in `subprojects/gst-plugins-bad/sys/nvmm/`
+
+### Remaining (desktop, no Jetson needed)
+
+- [ ] Implement `nvmmsink` — shared-memory sink with DMA-buf export (standalone repo)
+- [ ] Implement `nvmmappsrc` — push NVMM buffers from app into pipeline (standalone repo)
+- [ ] Add GstCheck-based tests — state transitions, GstHarness pipeline tests
+- [ ] Add benchmark framework — scaffolding for latency/throughput measurement
+- [ ] Port GstNvmmConvert to C — upstream MR element
+
+### Blocked on Jetson hardware
+
+- [ ] On-device JP5/JP6 testing against real `libnvbufsurface.so`
+- [ ] Benchmark: zero-copy vs CPU-copy latency numbers
+- [ ] Test with real ROCX pipelines
