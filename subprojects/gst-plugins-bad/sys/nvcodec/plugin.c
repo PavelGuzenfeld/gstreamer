@@ -57,6 +57,10 @@
 #include "gstcudaipcsink.h"
 #include "gstcudaipcsrc.h"
 #include "gstnvcodecutils.h"
+
+#ifdef HAVE_CUDA_NVMM
+#include "gstnvmmconvert.h"
+#endif
 #include "gstcudacompositor.h"
 
 #include <glib/gi18n-lib.h>
@@ -959,6 +963,11 @@ plugin_init (GstPlugin * plugin)
   gst_cuda_memory_init_once ();
   if (gst_cuda_nvmm_init_once ())
     GST_INFO ("Enable NVMM support");
+
+#ifdef HAVE_CUDA_NVMM
+  gst_element_register (plugin,
+      "nvmmconvert", GST_RANK_NONE, GST_TYPE_NVMM_CONVERT);
+#endif
 
   g_object_set_data_full (G_OBJECT (plugin),
       "plugin-nvcodec-shutdown", (gpointer) "shutdown-data",

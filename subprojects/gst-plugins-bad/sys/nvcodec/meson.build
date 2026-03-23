@@ -93,6 +93,21 @@ if host_system == 'linux'
   if have_nvbufsurface_h
     extra_args += ['-DHAVE_CUDA_NVMM']
     plugin_incdirs += gstcuda_nvmm_inc
+
+    # NVMM allocator, buffer pool, and transform element for Jetson
+    nvcodec_sources += [
+      'gstnvmmallocator.cpp',
+      'gstnvmmbufferpool.cpp',
+      'gstnvmmconvert.cpp',
+    ]
+
+    if host_machine.cpu_family() == 'aarch64'
+      nvbufsurftransform_dep = cc.find_library('nvbufsurftransform',
+        dirs: '/usr/lib/aarch64-linux-gnu/tegra/', required: false)
+      if nvbufsurftransform_dep.found()
+        extra_deps += [nvbufsurftransform_dep]
+      endif
+    endif
   endif
 
   gio_unix_dep = dependency('gio-unix-2.0', required : get_option('nvcodec'))
